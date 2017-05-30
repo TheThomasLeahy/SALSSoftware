@@ -1,0 +1,110 @@
+%Transmural Analysis Code
+%Written by Jordan Graves and Thomas Leahy
+%October 7th, 2016
+
+clc; close all; clear all;
+
+
+%% UI/Load All Data
+
+%TSALS loads a stack of .m files containing all slice data computed by
+%SALSA
+%TSALS also loads a .xml file containing all transformation matrices and
+%pixel sizes to convert tx,ty from pixels to mm
+
+%Loads all data from SALSA calculations
+data = loadMFiles();
+
+%Rows of matrices contain the matrix for each image
+%imageSize rows contain width, height for each image
+[transformMatrices, imageSize] = loadMatrices();
+
+%% Slice-by-Slice Analysis
+
+slice_thickness_str = inputdlg('Enter a section thickness (mm)', 'Section Thickness',1,{'1'});
+section_thickness = str2double(slice_thickness_str{1});
+
+for i = 1:length(data)
+    %Find data for this slice
+    thisSlice = data{i};
+    names = fieldnames(thisSlice);
+    sliceData = eval(strcat('thisSlice.',names{1}));
+    
+    % Translate transformMatrices from pixels to mms
+    T = translateMatrices(sliceData, transformMatrices{i}, imageSize(i,:));
+    
+    %Translate xy coordinates to Fiji coordinates
+    %Might not need to do this, hopefully
+    %sliceData = translateToFijiCoordinates(sliceData);
+    
+<<<<<<< HEAD:Transmural/TransmuralAnalysis.m
+    h = waitbar(0, sprintf('Generating Tensors and Rotating for section %d', i));
+    for i_dp=1:length(sliceData)
+        waitbar(i_dp/length(sliceData),h)
+        sliceData(i_dp).z = (i-1)*section_thickness;
+        sliceData(i_dp) = sliceData(i_dp).GenerateTensors;
+        sliceData(i_dp) = sliceData(i_dp).ApplyTransformation2(T);
+        sliceData(i_dp) = sliceData(i_dp).ComputeStats;
+=======
+    %Apply transform to xy coordinates and data
+    for x = 1:length(sliceData)
+        %{
+        JORDAN
+        I KEEP GETTING THIS ERROR 
+        Too many input arguments.
+        Error in data_point/ApplyTransformation (line 82)
+        obj = obj.GenerateFourier(1:180, length(obj.an) + length(obj.bn)); 
+        %}
+
+        %sliceData(x).ApplyTransformation(T);
+>>>>>>> bdd5cab42e921c152032534875217f75333732c5:Transmural/newTSALS.m
+
+    end
+    close(h)
+    
+    %Translate back to SALS Coordinates
+    %Might not need to do this, hopefully
+    %sliceData = translateToSalsCoordinates(sliceData);
+<<<<<<< HEAD:Transmural/TransmuralAnalysis.m
+
+=======
+    
+    if 
+    
+>>>>>>> bdd5cab42e921c152032534875217f75333732c5:Transmural/newTSALS.m
+    %Interpolation
+    %Perhaps we need to find a better way to select the master, maybe based
+    %on which one has T = [1,0,0,1,0,0]
+    if i == 1
+        %The X,Y values for this slice will be our master grid
+<<<<<<< HEAD:Transmural/TransmuralAnalysis.m
+        xMasterGrid = [sliceData(:).x];
+        yMasterGrid = [sliceData(:).y];
+        xUnique = sort(unique(xMasterGrid));
+        yUnique = sort(unique(yMasterGrid));
+        step_size = xUnique(2) - xUnique(1);
+        [X1, X2] = ndgrid(0.0:step_size:xUnique(end) , 0:step_size:yUnique(end));
+=======
+        [xPoints, yPoints] = findXPYP(sliceData);
+        [xMaster, yMaster] = ndgrid(xPoints, yPoints);
+        masterMat = [cell(xMaster), cell(yMaster)];
+>>>>>>> bdd5cab42e921c152032534875217f75333732c5:Transmural/newTSALS.m
+    else
+        %Interpolate data points on this slice to the master grid
+        sliceData = interpolate(sliceData, X1, X2); 
+    end
+    
+    finalData{i} = sliceData;
+end
+
+count = 1;
+all_points = data_point.empty;
+for i = 1:length(finalData)
+    section = finalData{i};
+    for j = 1:length(section)
+        all_points(count) = section(j);
+        all_points(count).z = i;
+        count = count + 1;
+    end
+end
+printToTextFile(all_points, ',');

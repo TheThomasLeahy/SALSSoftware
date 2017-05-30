@@ -1,0 +1,148 @@
+function [ newsection ] = interpolate(sectionData, xMasterGrid, yMasterGrid)
+
+    fs_order = length(sectionData(1).an)*2;
+
+<<<<<<< HEAD
+    %Find x,y size of this section
+    [xPoints,yPoints] = findXPYP(sectionData);
+=======
+%Find x,y points and size of this slice
+[xPoints,yPoints, xNum, yNum] = findXPYP(sliceData);
+>>>>>>> bdd5cab42e921c152032534875217f75333732c5
+
+    newsection = data_point.empty;
+    
+    valuesToInterp = {'mean_odf', 'mean_odd'};
+    
+    %% Setup interpolant function for each property of data_points we 
+    % want to interpolate
+    interps = containers.Map;
+    for v_index = 1:length(valuesToInterp);
+        
+        valueToInterp = valuesToInterp{v_index};
+        f = [];
+        for j = 1:length(sectionData)
+            f(j) = get(sectionData(j), valueToInterp);
+        end
+        
+        f_r = reshape(f, length(xMasterGrid),[]);
+        interps(valueToInterp) = griddedInterpolant(yMasterGrid, xMasterGrid, f_r);
+    end
+<<<<<<< HEAD
+    
+    %% Loop through the master grid points,
+    % create a data_point at each new point and add interpolated values
+    
+    xUnique = unique(xMasterGrid(:));
+    yUnique = unique(yMasterGrid(:));
+    X = [xMasterGrid(:).x, xMasterGrid(:).y];
+    i = 1;
+    for i = 1:length(xMasterGrid)  
+        
+%         xm = xUnique(ix);
+%         for iy = 1:length(yUnique)              
+%             ym = yUnique(iy);
+          dsearchn(X,T,XI)  
+            data_point_ = data_point;
+            
+            set(data_point_, 'x', xMasterGrid.x);
+            set(data_point_, 'y', xMasterGrid.y);
+            
+            for v_index = 1:length(valuesToInterp);
+                valueToInterp = valuesToInterp{v_index};
+                interpolant = interps(valueToInterp);
+                interpolatedValue = interpolant(xMasterGrid.x, xMasterGrid.y);
+                set(data_point_, valueToInterp, interpolatedValue);
+            end
+            
+            newsection(i) = data_point_;
+%             i= i+1;
+%         end
+    end
+% 
+%     %% Handle to Fourier coefficients
+%     %Find interpolated surface for a
+%     an_interp = cell(length(sectionData(1).an));
+%     for i = 1:length(sectionData(1).an)
+%         f = [];
+%         for j = 1:length(sectionData) % for each data_point
+%             f(j) = sectionData(j).an(i);
+%         end
+%         f_r = reshape(f, [length(xMasterGrid),length(yMasterGrid)]);
+%         an_interp{i} = griddedInterpolant(xMasterGrid, yMasterGrid,f_r);
+%     end
+% 
+%     %Find interpolated surface for b
+%     bn_interp = cell(length(sectionData(1).bn));
+%     for i = 1:length(sectionData(1).an) % for each coeff
+%         f = [];
+%         for j = 1:length(sectionData) % for each data_point
+%             f(j) = sectionData(j).bn(i);
+%         end
+%         f_r = reshape(f, [length(xMasterGrid),length(yMasterGrid)]);
+%         bn_interp{i} = griddedInterpolant(xMasterGrid, yMasterGrid,f_r,'cubic');
+%     end
+% 
+%     
+%     %% Loop through the master grid points,
+%     i = 1;
+%     for ix = 1:length(xUnique)               
+%         xm = xUnique(ix);
+%         for iy = 1:length(yUnique)              
+%             ym = yUnique(iy);        
+%                         
+%             an_prime = [];
+%             bn_prime = [];
+%             
+%             for ic=1:fs_order/2
+%                 bn_interpolant = bn_interp{ic};
+%                 an_interpolant = an_interp{ic};
+%                 
+%                 an_prime(ic) = an_interpolant(xm, ym);
+%                 bn_prime(ic) = bn_interpolant(xm, ym);
+%             end
+%             
+%             newsection(i).an = an_prime;
+%             newsection(i).bn = bn_prime;
+%             
+%             i = i + 1;
+%         end
+%     end
+=======
+    f_r = reshape(f, [xNum, yNum]);
+    an_interp(i) = griddedInterpolant(X1, X2,f_r,'cubic');
+end
+
+%Find interpolated surface for b
+bn_prime = [];
+for i = 1:(fs_order/2) % for each coeff
+    f = [];
+    for j = 1:length(sliceData) % for each data_point
+        f(j) = sliceData(j).bn(i);
+    end
+    f_r = reshape(f, [xNum, yNum]);
+    bn_interp(i) = griddedInterpolant(X1, X2,f_r,'cubic');
+end
+
+%% Find a, b values for master grid points
+
+%Find the x,y points that we want to interpolate
+
+[xInt, yInt] = thesePoints(xPoints, yPoints, xMasterGrid, yMasterGrid); 
+
+%Interpolate values for these points for both a and b
+
+an_prime(x) = F_interp(x_prime, y_prime);
+bn_prime(i) = F_interp(x_prime, y_prime);
+
+
+
+
+%% Create new data points and assemble into the new slice
+d_int = data_point;
+d_int.an = an_prime;
+d_int.bn = bn_prime;
+d_int = d_int.GenerateTensors;
+>>>>>>> bdd5cab42e921c152032534875217f75333732c5
+end
+

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
+  <configuration target="target.ezdeploy.standalone" target-name="MATLAB Compiler for Standalone Applications" name="SALSAnalysis" location="/Users/ccsmacmini/Documents/SALS Files/H4 SALSA 10_7" file="/Users/ccsmacmini/Documents/SALS Files/H4 SALSA 10_7/SALSAnalysis.prj" preferred-package-type="package.type.app" build-checksum="2752848761" preferred-package-location="/Users/ccsmacmini/Documents/SALS Files/H4 SALSA 10_7/SALSAnalysis/for_redistribution">
+    <param.appname>SALSAnalysis</param.appname>
+    <param.authnamewatermark>John G. Lesicko</param.authnamewatermark>
+    <param.email>jglesicko@utexas.edu</param.email>
+    <param.company>University of Texas at Austin</param.company>
+    <param.icon>${PROJECT_ROOT}/Untitled1_resources/icon.icns</param.icon>
+    <param.icons>
+      <file>${PROJECT_ROOT}/Untitled1_resources/icon_48.png</file>
+      <file>${PROJECT_ROOT}/Untitled1_resources/icon_32.png</file>
+      <file>${PROJECT_ROOT}/Untitled1_resources/icon_24.png</file>
+      <file>${PROJECT_ROOT}/Untitled1_resources/icon_16.png</file>
+    </param.icons>
+    <param.summary>Program for post precoseeing of experimental SALS data</param.summary>
+    <param.description />
+    <param.screenshot>/Users/ccsmacmini/Documents/SALS Files/2D SALS Files/Georgia Tech/MVAL_PD.jpg</param.screenshot>
+    <param.version>1.0</param.version>
+    <param.namespace>SALSAnalysis</param.namespace>
+    <param.guid />
+    <param.installpath.string>SALSAnalysis/</param.installpath.string>
+    <param.installpath.combo>option.installpath.systemwideapp</param.installpath.combo>
+    <param.logo />
+    <param.install.notes />
+    <param.intermediate>${PROJECT_ROOT}/SALSAnalysis/for_testing</param.intermediate>
+    <param.output>${PROJECT_ROOT}/SALSAnalysis/for_redistribution</param.output>
+    <param.embed.ctf>true</param.embed.ctf>
+    <param.target.type>subtarget.standalone</param.target.type>
+    <param.classorg />
+    <param.web.mcr>true</param.web.mcr>
+    <param.package.mcr>true</param.package.mcr>
+    <param.no.mcr>false</param.no.mcr>
+    <param.web.mcr.name>MyAppInstaller_web</param.web.mcr.name>
+    <param.package.mcr.name>MyAppInstaller_mcr</param.package.mcr.name>
+    <param.no.mcr.name>MyAppInstaller_app</param.no.mcr.name>
+    <param.user.defined.mcr.options />
+    <param.windows.command.prompt>true</param.windows.command.prompt>
+    <param.user.only.registration>false</param.user.only.registration>
+    <param.mads.no.java>false</param.mads.no.java>
+    <param.mads.exclusive.mcr>false</param.mads.exclusive.mcr>
+    <param.net.framework>option.net.framework.default</param.net.framework>
+    <param.assembly.type>false</param.assembly.type>
+    <param.encryption.key.file />
+    <param.net.enable.remoting>false</param.net.enable.remoting>
+    <param.net.tsa.enable>false</param.net.tsa.enable>
+    <param.net.tsa.assembly />
+    <param.net.tsa.interface />
+    <param.net.tsa.namespace>SALSAnalysis</param.net.tsa.namespace>
+    <param.net.tsa.superclass />
+    <param.net.tsa.metadata />
+    <param.net.tsa.metadata.assembly>/Users/ccsmacmini/Documents/MATLAB</param.net.tsa.metadata.assembly>
+    <param.create.log>false</param.create.log>
+    <param.log.file />
+    <unset>
+      <param.description />
+      <param.version />
+      <param.namespace />
+      <param.guid />
+      <param.logo />
+      <param.install.notes />
+      <param.intermediate />
+      <param.output />
+      <param.embed.ctf />
+      <param.target.type />
+      <param.classorg />
+      <param.web.mcr />
+      <param.no.mcr />
+      <param.web.mcr.name />
+      <param.package.mcr.name />
+      <param.no.mcr.name />
+      <param.user.defined.mcr.options />
+      <param.windows.command.prompt />
+      <param.user.only.registration />
+      <param.mads.no.java />
+      <param.mads.exclusive.mcr />
+      <param.net.framework />
+      <param.assembly.type />
+      <param.encryption.key.file />
+      <param.net.enable.remoting />
+      <param.net.tsa.enable />
+      <param.net.tsa.assembly />
+      <param.net.tsa.interface />
+      <param.net.tsa.namespace />
+      <param.net.tsa.superclass />
+      <param.net.tsa.metadata />
+      <param.net.tsa.metadata.assembly />
+      <param.create.log />
+      <param.log.file />
+    </unset>
+    <fileset.main>
+      <file>${PROJECT_ROOT}/SALSAnalysis.m</file>
+    </fileset.main>
+    <fileset.resources>
+      <file>${PROJECT_ROOT}/NormalizeDist.m</file>
+      <file>${PROJECT_ROOT}/SALSA_POP.fig</file>
+      <file>${PROJECT_ROOT}/SALSA_POP.m</file>
+      <file>${PROJECT_ROOT}/SALSAnalysis_GUI.fig</file>
+      <file>${PROJECT_ROOT}/SALSAnalysis_GUI.m</file>
+      <file>${PROJECT_ROOT}/TECPLOT_UI.fig</file>
+      <file>${PROJECT_ROOT}/TECPLOT_UI.m</file>
+      <file>${PROJECT_ROOT}/calc2ndb.m</file>
+      <file>${PROJECT_ROOT}/calc2ndf.m</file>
+      <file>${PROJECT_ROOT}/calc4thComp.m</file>
+      <file>${PROJECT_ROOT}/calc4thb.m</file>
+      <file>${PROJECT_ROOT}/calc4thf.m</file>
+      <file>${PROJECT_ROOT}/constructPart2.m</file>
+      <file>${PROJECT_ROOT}/constructPart3.m</file>
+      <file>${PROJECT_ROOT}/copyfig.m</file>
+      <file>${PROJECT_ROOT}/export_fig.m</file>
+      <file>${PROJECT_ROOT}/genRadsList.m</file>
+      <file>${PROJECT_ROOT}/isolate_axes.m</file>
+      <file>${PROJECT_ROOT}/num2colormap.m</file>
+      <file>${PROJECT_ROOT}/pdf2eps.m</file>
+      <file>${PROJECT_ROOT}/pdftops.m</file>
+      <file>${PROJECT_ROOT}/print2array.m</file>
+      <file>${PROJECT_ROOT}/print2eps.m</file>
+      <file>${PROJECT_ROOT}/returnH.m</file>
+      <file>${PROJECT_ROOT}/sort_nat.m</file>
+      <file>${PROJECT_ROOT}/trig.m</file>
+      <file>${PROJECT_ROOT}/user_string.m</file>
+    </fileset.resources>
+    <fileset.package />
+    <build-deliverables>
+      <file name="readme.txt" location="${PROJECT_ROOT}/SALSAnalysis/for_testing" optional="true">/Users/ccsmacmini/Documents/SALS Files/H4 SALSA 10_7/SALSAnalysis/for_testing/readme.txt</file>
+      <file name="run_SALSAnalysis.sh" location="${PROJECT_ROOT}/SALSAnalysis/for_testing" optional="false">/Users/ccsmacmini/Documents/SALS Files/H4 SALSA 10_7/SALSAnalysis/for_testing/run_SALSAnalysis.sh</file>
+      <file name="SALSAnalysis.app" location="${PROJECT_ROOT}/SALSAnalysis/for_testing" optional="false">/Users/ccsmacmini/Documents/SALS Files/H4 SALSA 10_7/SALSAnalysis/for_testing/SALSAnalysis.app</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>/Applications/MATLAB_R2013b.app</root>
+      <toolboxes />
+    </matlab>
+    <platform>
+      <unix>true</unix>
+      <mac>true</mac>
+      <windows>false</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>false</linux>
+      <solaris>false</solaris>
+      <osver>10.9.4</osver>
+      <os32>false</os32>
+      <os64>true</os64>
+      <arch>maci64</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>
+
