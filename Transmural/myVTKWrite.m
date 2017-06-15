@@ -137,6 +137,15 @@ for i = 1:numCells
 end
 fprintf(fid, '\n');
 
+%Region
+fprintf(fid, 'SCALARS Region float\n');
+fprintf(fid, 'LOOKUP_TABLE default\n');
+for i = 1:numCells
+    PrefDVOutput = [num2str(Elements(i).Region) '\n'];
+    fprintf(fid, PrefDVOutput);
+end
+fprintf(fid, '\n');
+
 %MeanNOI
 fprintf(fid, 'SCALARS MeanNOI float\n');
 fprintf(fid, 'LOOKUP_TABLE default\n');
@@ -175,7 +184,7 @@ end
 fprintf(fid, '\n');
 %}
 
-
+%{
 %DeltaPrefDA
 fprintf(fid, 'VECTORS GradientPreferredDirectionAngle float\n');
 for i = 1:numCells
@@ -183,7 +192,7 @@ for i = 1:numCells
     fprintf(fid, PrefDAOutput);
 end
 fprintf(fid, '\n');
-
+%}
 
 %Delta NOI
 fprintf(fid, 'VECTORS GradientNOI float\n');

@@ -5,8 +5,8 @@ clc; clear all; close all;
 
 %% File Load: Load all SALS files
 
-imageFolder = uigetdir('\*', 'Select where you want to save the image stack');
-outputFolder = uigetdir('\*', 'Select where you want to save the SALSA files');
+%imageFolder = uigetdir('\*', 'Select where you want to save the image stack');
+%outputFolder = uigetdir('\*', 'Select where you want to save the SALSA files');
 
 [foldername,SALSFiles] = loadSALSFiles();
 disp('Stuff');
@@ -15,7 +15,7 @@ disp('Stuff');
 %% Analyze: Analyze all SALS files, stored in cell array
 sectionData = cell(1,length(SALSFiles));
 for i = 1:length(SALSFiles)
-    Data = loadData(strcat(foldername,'\',SALSFiles(i).name));
+    Data = loadData(strcat(foldername,'/',SALSFiles(i).name));
     h = waitbar(0,strcat('SALS Analysis: Section number ' ,num2str(i)));
     for x = 1:length(Data)
         waitbar(x/length(Data))

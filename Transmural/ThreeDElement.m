@@ -10,6 +10,8 @@ classdef ThreeDElement < matlab.mixin.SetGet
         Skew;
         Kurtosis;
         
+        Region;
+        
         
         %Calculated values
         dE1dX;

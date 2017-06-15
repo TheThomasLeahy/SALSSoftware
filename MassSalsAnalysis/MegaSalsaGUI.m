@@ -22,7 +22,7 @@ function varargout = MegaSalsaGUI(varargin)
 
 % Edit the above text to modify the response to help MegaSalsaGUI
 
-% Last Modified by GUIDE v2.5 11-Apr-2017 20:28:24
+% Last Modified by GUIDE v2.5 15-Jun-2017 13:06:36
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -61,6 +61,7 @@ handles.sectionNumber = handles.popupmenu1.Value;
 handles.display = handles.popupmenu3.Value;
 handles.threshold = 0;
 handles = buildColorMap(handles);
+handles.threshby = 1;
 
 
 % Choose default command line output for MegaSalsaGUI
@@ -129,12 +130,18 @@ elseif display == 3
 elseif display == 4
     stats = [-10 10];
 elseif display == 5
-    stats = [0 7000];
+    stats = [0 70000];
 else
-    stats = [0 7000];
+    stats = [0 70000];
 end
 
+if display == 1
 string = 'hsv';
+else
+    string = 'jet';
+end
+
+
 dataMap = num2colormap(data,string,stats);
 
 index = 1;
@@ -160,7 +167,7 @@ end
 handles.currentMap = dataMap;
 imagesc(dataMap);
 set(gca,'YDir','normal');
-colormap('hsv');
+colormap(string);
 caxis(stats);
 c = colorbar;
 c.Ticks = linspace(stats(1),stats(2),10);
@@ -191,14 +198,33 @@ function thresholdData(handles)
 threshold = handles.threshold;
 sectionData = handles.data{handles.sectionNumber};
 
+handles.threshby = handles.popupmenu4.Value;
+if ~isequal(handles.threshby,1)
+    threshold = threshold * 700;
+end
+    
+
 for i = 1:length(sectionData)
-    if sectionData(i).oi_odf < threshold
-        sectionData(i).tissue_flag = 0;
+    if handles.threshby == 1
+        if sectionData(i).oi_odf < threshold
+            sectionData(i).tissue_flag = 0;
+        else
+            sectionData(i).tissue_flag = 1;
+        end
+    elseif handles.threshby == 2
+        if max(sectionData(i).intensity_data) < threshold
+            sectionData(i).tissue_flag = 0;
+        else
+            sectionData(i).tissue_flag = 1;
+        end
     else
-        sectionData(i).tissue_flag = 1;
+        if min(sectionData(i).intensity_data) < threshold
+            sectionData(i).tissue_flag = 0;
+        else
+            sectionData(i).tissue_flag = 1;
+        end
     end
 end
-
 handles.data{handles.sectionNumber} = sectionData;
 handles = buildColorMap(handles);
 
@@ -229,6 +255,7 @@ function slider1_Callback(hObject, eventdata, handles)
 value = get(hObject,'Value');
 value = round(100*value);
 handles.threshold = value;
+handles.threshby = handles.popupmenu4.Value;
 edit4_Callback(hObject,eventdata,handles);
 handles.sectionNumber = handles.popupmenu1.Value;
 thresholdData(handles);
@@ -458,6 +485,9 @@ function edit4_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 value = handles.threshold;
+if ~isequal(handles.threshby,1)
+    value = value*700;
+end
 string = strcat({'Threshold: '},num2str(value));
 handles.edit4.String = string;
 
@@ -473,6 +503,33 @@ function edit4_CreateFcn(hObject, eventdata, handles)
 % handles    empty - handles not created until after all CreateFcns called
 
 % Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on selection change in popupmenu4.
+function popupmenu4_Callback(hObject, eventdata, handles)
+% hObject    handle to popupmenu4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu4 contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from popupmenu4
+value = get(hObject,'Value');
+handles.threshby=value;
+
+
+
+
+% --- Executes during object creation, after setting all properties.
+function popupmenu4_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to popupmenu4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');

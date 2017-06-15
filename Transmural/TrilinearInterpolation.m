@@ -12,7 +12,7 @@ function [ InterpolatedValue ] = TrilinearInterpolation( X, Values )
     S(7) = (1-X(1))*X(2)*X(3);
     S(8) = X(1)*X(2)*X(3);
     
-    InterpolatedValue = sum(Values.*S);
+    InterpolatedValue = sum(Values.*S');
 
 end
 

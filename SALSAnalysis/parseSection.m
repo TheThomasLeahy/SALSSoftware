@@ -1,5 +1,5 @@
 function [ data_points, size] = parseSection( filename )
-     orig_data = dlmread(filename);
+     orig_data = dlmread(filename,'\t');
     
      n = orig_data(1);
      m = orig_data(1,2);
