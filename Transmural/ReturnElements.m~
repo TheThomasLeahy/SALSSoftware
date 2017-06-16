@@ -52,13 +52,7 @@ for i = 1:length(DataPointCoords)
     yInd = round((thisPoint(2)-minY)/yStep);
     zInd = round((thisPoint(3)-minZ)/zStep);
     
-    if (xInd+1) == xSize
-        continue;
-    end;
     
-    if (yInd+1) == ySize
-        continue;
-    end;
     
     if (zInd+1) == zSize %%This is the top layer, there can't be anything bigger than this
         break;
