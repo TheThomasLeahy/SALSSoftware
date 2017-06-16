@@ -16,6 +16,6 @@ for i = 1:length(files)
 end
 files = theseFiles;
 
-files = sort_nat(files)
+files = sort_nat(files);
 end
 

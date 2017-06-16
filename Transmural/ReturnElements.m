@@ -18,9 +18,11 @@ zRange = max(zVals)-min(zVals);
 xUnique = sort(unique(xVals));
 yUnique = sort(unique(yVals));
 zUnique = sort(unique(zVals));
-xStep = xUnique(5)-xUnique(4);
-yStep = yUnique(5)-yUnique(4);
-zStep = zUnique(2)-zUnique(1);
+
+xStep = min(diff(xUnique));
+yStep = min(diff(yUnique));
+zStep = min(diff(zUnique));
+
 %Step = round([xStep yStep zStep],2);
 
 xSize = round(xRange/xStep)+1;
@@ -44,7 +46,9 @@ for i =1:length(DataPointCoords)
 end
 
 for i = 1:length(DataPointCoords)
+    if mod(i,25) ==0
     waitbar(i/(length(DataPointCoords)),h);
+    end
     
     %Find array point of the point
     thisPoint = [DataPointCoords(i,:)];
@@ -86,13 +90,13 @@ for i = 1:length(DataPointCoords)
     fifth = val + (xSize*ySize);
     fifth = bigArray(fifth);
 
-    sixth = fifth + 1;
+    sixth = val + (xSize*ySize) + 1;
     sixth = bigArray(sixth);
     
-    seventh = sixth + xSize-1;
+    seventh = val + (xSize*ySize) + xSize;
     seventh = bigArray(seventh);
     
-    eigth = seventh + 1;
+    eigth = val + (xSize*ySize) + xSize + 1;
     eigth = bigArray(eigth);
     
     indices = [second third fourth fifth sixth seventh eigth];
