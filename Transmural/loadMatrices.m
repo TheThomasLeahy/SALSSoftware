@@ -1,7 +1,7 @@
 function [ transformMatrices, imageSize ] = loadMatrices()
 
 %% Load the xml file
-[File, FilePath]=uigetfile('\*.mat','Pick an .mat project file to Analyze');
+[File, FilePath]=uigetfile('/*.mat','Pick an .mat project file to Analyze');
 fileID = strcat(FilePath,File);
 data = load(fileID);
 

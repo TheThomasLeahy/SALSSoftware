@@ -5,8 +5,8 @@ clc; clear all; close all;
 
 %% File Load: Load all SALS files
 
-%imageFolder = uigetdir('\*', 'Select where you want to save the image stack');
-%outputFolder = uigetdir('\*', 'Select where you want to save the SALSA files');
+imageFolder = uigetdir('\*', 'Select where you want to save the image stack');
+outputFolder = uigetdir('\*', 'Select where you want to save the SALSA files');
 
 [foldername,SALSFiles] = loadSALSFiles();
 disp('Stuff');
@@ -57,7 +57,7 @@ for x =1:length(sectionData)
     imageBig = imresize(image,[500,500]);
     %thisPic = imshow(imageBig);
     %set(gca,'YDir','normal');
-    string = strcat(imageFolder,'\Section',num2str(x),'.tif');
+    string = strcat(imageFolder,'/Section',num2str(x),'.tif');
     imwrite(imageBig,string);
     
 end
@@ -81,7 +81,7 @@ end
 for i =1:length(sectionData)
     Section = sectionData{i};
     
-    string = strcat(outputFolder,'\Section',num2str(i),'.mat');
+    string = strcat(outputFolder,'/Section',num2str(i),'.mat');
     
     save(string,'Section');
 end

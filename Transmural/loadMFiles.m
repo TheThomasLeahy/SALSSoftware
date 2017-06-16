@@ -1,7 +1,7 @@
 function [ m ] = loadMFiles(  )
 
     % Get folder of the .M stack
-    foldername = uigetdir('\*', 'Select the folder containing the .m stack');
+    foldername = uigetdir('/*', 'Select the folder containing the .m stack');
     files = dir(foldername);
 
     [~, order] = sort({files(:).name});

@@ -25,13 +25,12 @@ for i = 2:length(imageFiles)
     str = strcat( 'The alignment between section ', num2str(i-1), ...
         ' and section ', num2str(i));
     
-    %{
+    
     figure('Name', str);
     subplot(1,2,1);
     obj1 = imshowpair(imagePrevious, imageNext);
     title('\fontsize{18} Misaligned image');
-    %}
-        
+    
     %Register it
     
     [optimizer, metric] = imregconfig('monomodal');
@@ -39,35 +38,16 @@ for i = 2:length(imageFiles)
     tForm = tForm.T';
     [imageNext_New] = imregister(imageNext,imagePrevious, 'rigid', optimizer, metric);
     
-    
-
-    
     %Here is the new images
     %percOverlap2 = findOverlap(imagePrevious, imageNext_New);
     
-    %{
     subplot(1,2,2);
     obj2 = imshowpair(imagePrevious,imageNext_New);
     title('\fontsize{18} Registered image');
-    %}
     
     %Confirm with user that it is okay
     %getOkay();
     %close all;
-    
-    if i == 51
-        
-            figure('Name', str);
-    subplot(1,2,1);
-    obj1 = imshowpair(imagePrevious, imageNext);
-    title('\fontsize{18} Misaligned image');
-    
-        subplot(1,2,2);
-    obj2 = imshowpair(imagePrevious,imageNext_New);
-    title('\fontsize{18} Registered image');
-        
-        disp('stop');
-    end
     
     %storeResults
     transforms{i} = tForm;
