@@ -3,6 +3,9 @@
 
 clc; clear all; close all; 
 
+%% Add required files to path
+addpath('../SALSAnalysis');
+
 %% File Load: Load all SALS files
 
 imageFolder = uigetdir('\*', 'Select where you want to save the image stack');
