@@ -61,7 +61,7 @@ handles.sectionNumber = handles.popupmenu1.Value;
 handles.display = handles.popupmenu3.Value;
 handles.threshold = 0;
 handles = buildColorMap(handles);
-handles.threshby = 1;-
+handles.threshby = 1;
 
 
 % Choose default command line output for MegaSalsaGUI
