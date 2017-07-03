@@ -50,6 +50,15 @@ for i = 2:length(imageFiles)
     
     
     %Confirm with user that it is okay
+    
+    
+    
+    
+    
+    
+    
+    
+    
     choice = getOkay();
     %if isequal(choice, 'Not OK');
         %This registration was deemed not satisfactory
