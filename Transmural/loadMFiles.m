@@ -36,9 +36,13 @@ function [ m ] = loadMFiles(  )
     % cell array of structs
     m = cell(1,length(string));
     for i = 1:length(string)
+        j = 0;
         %Load the .mat files
         %fileID = strcat(foldername,dl,theseFiles(i).name);
-        m{i} = load(string{i}, '-mat');
+        if (endsWith(string{i}, '.mat'))
+            j=j+1;
+            m{j} = load(string{i}, '-mat');
+        end
     end
     
     
