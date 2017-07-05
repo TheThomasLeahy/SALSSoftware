@@ -52,6 +52,21 @@ function ManualRegistration_OpeningFcn(hObject, eventdata, handles, varargin)
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to ManualRegistration (see VARARGIN)
 
+data= varargin{1};
+
+global imagePrevious;
+imagePrevious = data{1};
+global imageNext;
+imageNext = data{2};
+
+showInit(handles, imagePrevious,imageNext);
+
+global tForm;
+tForm = [1 0 0 ; 0 1 0; 0 0 1];
+
+global imageNext_New;
+imageNext_New = showRegistered(handles, imagePrevious,imageNext,tForm);
+
 % Choose default command line output for ManualRegistration
 handles.output = hObject;
 
@@ -60,6 +75,48 @@ guidata(hObject, handles);
 
 % UIWAIT makes ManualRegistration wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
+
+function showInit(handles, imagePrevious, imageNext)
+
+axes(handles.axes1);
+imshowpair(imagePrevious, imageNext);
+
+
+
+function imageNext_New = showRegistered(handles, imagePrevious, imageNext, tForm)
+
+axes(handles.axes2);
+
+T = affine2d(tForm');
+imageNext_New = imwarp(imageNext, T);
+%imageNext_New = imtranslate(imageNext_New, [tForm(1,3) tForm(2,3)]);
+imageNext_New = imresize(imageNext_New, [500,500]);
+
+imshowpair(imagePrevious, imageNext_New);
+
+
+
+function adjustTForm(handles, string, value)
+
+global tForm;
+
+if strcmp(string, 'rot')
+    c = cosd(value);
+    s = sind(value);
+    tForm(1,1) = c; tForm(2,2) = c;
+    tForm(1,2) = s; tForm(2,1) = -1*s;
+elseif strcmp(string, 'horzshift')
+    tForm(1,3) = value;
+else
+    tForm(2,3) = value;
+end
+
+global imagePrevious;
+global imageNext;
+global imageNext_New;
+
+imageNext_New = showRegistered(handles, imagePrevious, imageNext, tForm);
+
 
 
 % --- Outputs from this function are returned to the command line.
@@ -72,7 +129,15 @@ function varargout = ManualRegistration_OutputFcn(hObject, eventdata, handles)
 % Get default command line output from handles structure
 waitfor(handles.figure1);
 
-varargout{1} = handles.output;
+global tForm;
+
+global imageNext_New;
+
+data{1} = tForm;
+data{2} = imageNext_New;
+
+varargout{1} = data;
+
 
 
 % --- Executes on slider movement.
@@ -83,6 +148,16 @@ function slider1_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
+%This is the rotation slider
+%Should go from -90 to 90
+%Initial value from 0 to 1
+
+value = get(hObject,'Value');
+rot = (value-0.5)*180;
+handles.edit1.String = [num2str(rot) char(176)];
+
+adjustTForm(handles,'rot',rot);
 
 
 % --- Executes during object creation, after setting all properties.
@@ -95,6 +170,7 @@ function slider1_CreateFcn(hObject, eventdata, handles)
 if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
+hObject.Value = 0.5;
 
 
 % --- Executes on slider movement.
@@ -106,6 +182,13 @@ function slider2_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 
+%VERT SHIFT
+
+value = get(hObject,'Value');
+shift = (value-0.5)*1000;
+handles.edit3.String = [num2str(shift)];
+
+adjustTForm(handles,'vertshift',shift);
 
 % --- Executes during object creation, after setting all properties.
 function slider2_CreateFcn(hObject, eventdata, handles)
@@ -117,7 +200,7 @@ function slider2_CreateFcn(hObject, eventdata, handles)
 if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
-
+hObject.Value = 0.5;
 
 % --- Executes on slider movement.
 function slider3_Callback(hObject, eventdata, handles)
@@ -128,6 +211,13 @@ function slider3_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 
+%HORZ SHIFT
+
+value = get(hObject,'Value');
+shift = (value-0.5)*1000;
+handles.edit2.String = [num2str(shift)];
+
+adjustTForm(handles,'horzshift',shift);
 
 % --- Executes during object creation, after setting all properties.
 function slider3_CreateFcn(hObject, eventdata, handles)
@@ -139,7 +229,7 @@ function slider3_CreateFcn(hObject, eventdata, handles)
 if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
-
+hObject.Value = 0.5;
 
 
 function edit1_Callback(hObject, eventdata, handles)
@@ -149,7 +239,15 @@ function edit1_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of edit1 as text
 %        str2double(get(hObject,'String')) returns contents of edit1 as a double
+string = get(hObject,'String');
+index = strfind(string, char(176));
+string = string(1:index-1);
+rot = str2num(string);
 
+value = (rot/180)+0.5;
+handles.slider1.Value = value;
+
+adjustTForm(handles,'rot',rot);
 
 % --- Executes during object creation, after setting all properties.
 function edit1_CreateFcn(hObject, eventdata, handles)
@@ -163,6 +261,9 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
+hObject.String = ['0' char(176)];
+
+
 
 
 function edit2_Callback(hObject, eventdata, handles)
@@ -172,6 +273,15 @@ function edit2_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of edit2 as text
 %        str2double(get(hObject,'String')) returns contents of edit2 as a double
+
+%HORZ SHIFT
+
+string = get(hObject,'String');
+shift = str2num(string);
+value = (shift/1000)+0.5;
+handles.slider3.Value = value;
+
+adjustTForm(handles,'horzshift',shift);
 
 
 % --- Executes during object creation, after setting all properties.
@@ -186,6 +296,8 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
+hObject.String = ['0'];
+
 
 
 function edit3_Callback(hObject, eventdata, handles)
@@ -196,6 +308,14 @@ function edit3_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'String') returns contents of edit3 as text
 %        str2double(get(hObject,'String')) returns contents of edit3 as a double
 
+% VERT SHIFT
+
+string = get(hObject,'String');
+shift = str2num(string);
+value = (shift/1000)+0.5;
+handles.slider2.Value = value;
+
+adjustTForm(handles,'vertshift',shift);
 
 % --- Executes during object creation, after setting all properties.
 function edit3_CreateFcn(hObject, eventdata, handles)
@@ -209,9 +329,13 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
+hObject.String = ['0'];
+
 
 % --- Executes on button press in pushbutton1.
 function pushbutton1_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+disp('hello');
+close(handles.figure1);

@@ -162,8 +162,8 @@ classdef ThreeDElement < matlab.mixin.SetGet
             
             dPrefDV2dX3 = (PrefA_E3_High-PrefA_E3_Low)/obj.dE3dZ;
             
-            %Make Vector
-            obj.PrefDA_Gradient = [dPrefDV1dX1, dPrefDV1dX2, dPrefDV1dX3;...
+            %Make Tensor
+            obj.PrefDV_Gradient = [dPrefDV1dX1, dPrefDV1dX2, dPrefDV1dX3;...
                                    dPrefDV2dX1, dPrefDV2dX2, dPrefDV2dX3;...
                                    0            0            0          ];
             

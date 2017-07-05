@@ -117,6 +117,16 @@ fprintf(fid, '\n');
 %Here we output the cell data
 fprintf(fid, ['CELL_DATA ' num2str(numCells) '\n']);
 
+%{
+%Region
+fprintf(fid, 'SCALARS Region float\n');
+fprintf(fid, 'LOOKUP_TABLE default\n');
+for i = 1:numCells
+    PrefDVOutput = [num2str(Elements(i).Region) '\n'];
+    fprintf(fid, PrefDVOutput);
+end
+fprintf(fid, '\n');
+%}
 
 %MeanPrefDV
 fprintf(fid, 'VECTORS MeanPreferredDirectionVector float\n');
@@ -137,14 +147,7 @@ for i = 1:numCells
 end
 fprintf(fid, '\n');
 
-%Region
-fprintf(fid, 'SCALARS Region float\n');
-fprintf(fid, 'LOOKUP_TABLE default\n');
-for i = 1:numCells
-    PrefDVOutput = [num2str(Elements(i).Region) '\n'];
-    fprintf(fid, PrefDVOutput);
-end
-fprintf(fid, '\n');
+
 
 %MeanNOI
 fprintf(fid, 'SCALARS MeanNOI float\n');
@@ -174,29 +177,68 @@ for i = 1:numCells
 end
 fprintf(fid, '\n');
 
-%{
-%DeltaPrefDV
-fprintf(fid, 'VECTORS GradientPreferredDirectionVector float\n');
-for i = 1:numCells
-    PrefDVOutput = [num2str(Elements(i).PrefDV_Gradient) '\n'];
+%% Close it on up
+st = fclose(fid);
+
+
+%% Print out alternate vtk
+
+ind = strfind(filename, '.vtk');
+fileID = [pathname filename(1:ind-1) '-Alt.vtk'];
+
+%% Open File
+fid = fopen(fileID, 'w'); 
+
+%% Header
+fprintf(fid, '# vtk DataFile Version 2.0\n');
+fprintf(fid, 'Data printed from this dope TSALS Program\n');
+fprintf(fid, 'ASCII\n');
+fprintf(fid, 'DATASET UNSTRUCTURED_GRID\n');
+
+%% Find points (center of the elements)
+
+xVals = zeros(1,length(Elements));
+yVals = zeros(1,length(Elements));
+zVals = zeros(1,length(Elements));
+
+for i = 1:length(Elements)
+    xVals(i) = Elements(i).nodes(1).x + ((Elements(i).nodes(8).x - Elements(i).nodes(1).x)/2);
+    yVals(i) = Elements(i).nodes(1).y + ((Elements(i).nodes(8).y - Elements(i).nodes(1).y)/2);
+    zVals(i) = Elements(i).nodes(1).z + ((Elements(i).nodes(8).z - Elements(i).nodes(1).z)/2);
+end
+
+
+%% Print out points
+
+numPoints = length(Elements);
+fprintf(fid, ['POINTS ' num2str(numPoints) ' FLOAT\n']);
+
+for i = 1:numPoints
+    fprintf(fid, [num2str(xVals(i)) ' ' num2str(yVals(i)) ' ' num2str(zVals(i)) '\n']);
+end
+fprintf(fid, '\n');
+
+%% PrefD Gradient Tensor
+
+fprintf(fid, ['POINT_DATA ' num2str(numPoints) '\n']);
+
+%MeanPrefDV
+fprintf(fid, 'TENSORS PDGradient float\n');
+for i = 1:numPoints
+    %Vector = Elements(i).PrefDV_Mean;
+    PrefDVOutput = [num2str(Elements(i).PrefDV_Gradient(1,1)) ' ' num2str(Elements(i).PrefDV_Gradient(1,2)) ' ' num2str(Elements(i).PrefDV_Gradient(1,3)) '\n'];
+    fprintf(fid, PrefDVOutput);
+    PrefDVOutput = [num2str(Elements(i).PrefDV_Gradient(2,1)) ' ' num2str(Elements(i).PrefDV_Gradient(2,2)) ' ' num2str(Elements(i).PrefDV_Gradient(2,3)) '\n'];
+    fprintf(fid, PrefDVOutput);
+    PrefDVOutput = ['0 0 0 \n'];
     fprintf(fid, PrefDVOutput);
 end
 fprintf(fid, '\n');
-%}
 
-%{
-%DeltaPrefDA
-fprintf(fid, 'VECTORS GradientPreferredDirectionAngle float\n');
-for i = 1:numCells
-    PrefDAOutput = [num2str(Elements(i).PrefDA_Gradient) '\n'];
-    fprintf(fid, PrefDAOutput);
-end
-fprintf(fid, '\n');
-%}
+%% NOI Gradient Vector
 
-%Delta NOI
 fprintf(fid, 'VECTORS GradientNOI float\n');
-for i = 1:numCells
+for i = 1:numPoints
     string = num2str(Elements(i).NOI_Gradient(1));
     string = [string ' ' num2str(Elements(i).NOI_Gradient(2))];
     string = [string ' ' num2str(Elements(i).NOI_Gradient(3))];
@@ -207,6 +249,7 @@ fprintf(fid, '\n');
 
 %% Close it on up
 st = fclose(fid);
+
 if(st == 0)
     disp('Your vtk is printed! Enjoy');
 else
