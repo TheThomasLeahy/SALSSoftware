@@ -64,7 +64,9 @@ for i = 1:length(data)
     
     h = waitbar(0, sprintf('Generating Tensors and Rotating for section %d', i));
     for i_dp=1:length(sliceData)
+        if mod(length(sliceData), i_dp) == 0
         waitbar(i_dp/length(sliceData),h)
+        end
         sliceData(i_dp).z = (i-1)*section_thickness;
         %sliceData(i_dp) = sliceData(i_dp).GenerateTensors;
         sliceData(i_dp) = sliceData(i_dp).ApplyTransformation2(T);

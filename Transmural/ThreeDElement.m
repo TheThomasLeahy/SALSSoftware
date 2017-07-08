@@ -174,8 +174,8 @@ classdef ThreeDElement < matlab.mixin.SetGet
             E1_High = 0.51;
             E1_Low = 0.49;
             
-            NOI_E1_High = TrilinearInterpolation([E1_High, E2, E3], obj.NOI);
-            NOI_E1_Low = TrilinearInterpolation([E1_Low, E2, E3], obj.NOI);
+            NOI_E1_High = TrilinearInterpolation([E1_High, E2, E3], obj.NOI');
+            NOI_E1_Low = TrilinearInterpolation([E1_Low, E2, E3], obj.NOI');
             
             dNOIdX1 = (NOI_E1_High-NOI_E1_Low)/obj.dE1dX;
             
@@ -183,8 +183,8 @@ classdef ThreeDElement < matlab.mixin.SetGet
             E2_High = 0.51;
             E2_Low = 0.49;
             
-            NOI_E2_High = TrilinearInterpolation([E1, E2_High, E3], obj.NOI);
-            NOI_E2_Low = TrilinearInterpolation([E1, E2_Low, E3], obj.NOI);
+            NOI_E2_High = TrilinearInterpolation([E1, E2_High, E3], obj.NOI');
+            NOI_E2_Low = TrilinearInterpolation([E1, E2_Low, E3], obj.NOI');
             
             dNOIdX2 = (NOI_E2_High-NOI_E2_Low)/obj.dE2dY;
             
@@ -192,8 +192,8 @@ classdef ThreeDElement < matlab.mixin.SetGet
             E3_High = 0.51;
             E3_Low = 0.49;
             
-            NOI_E3_High = TrilinearInterpolation([E1, E2, E3_High], obj.NOI);
-            NOI_E3_Low = TrilinearInterpolation([E1, E2, E3_Low], obj.NOI);
+            NOI_E3_High = TrilinearInterpolation([E1, E2, E3_High], obj.NOI');
+            NOI_E3_Low = TrilinearInterpolation([E1, E2, E3_Low], obj.NOI');
             
             dNOIdX3 = (NOI_E3_High-NOI_E3_Low)/obj.dE3dZ;
             

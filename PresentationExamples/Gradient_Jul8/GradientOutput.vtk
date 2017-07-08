@@ -1,0 +1,95 @@
+# vtk DataFile Version 2.0
+Data printed from this dope TSALS Program
+ASCII
+DATASET UNSTRUCTURED_GRID
+POINTS 8 FLOAT
+0 0 0
+1 0 0
+0 1 0
+1 1 0
+0 0 1
+1 0 1
+0 1 1
+1 1 1
+
+CELLS 1 9
+8 0 1 2 3 4 5 6 7
+
+CELL_TYPES 1
+11
+
+POINT_DATA 8
+VECTORS PreferredDirectionVector float
+0.087277 -0.99618 0
+0.57393 -0.8189 0
+0.57393 -0.8189 0
+0.9059 -0.42349 0
+0.57393 -0.8189 0
+0.9059 -0.42349 0
+0.9059 -0.42349 0
+0.9958 0.091522 0
+
+SCALARS PreferredDirectionAngle float
+LOOKUP_TABLE default
+-1.4834
+-0.95949
+-0.95949
+-0.43729
+-0.95949
+-0.43729
+-0.43729
+0.09165
+
+SCALARS OrientationIndex float
+LOOKUP_TABLE default
+80.523
+71.1332
+71.1332
+61.5888
+71.1332
+61.5888
+61.5888
+51.7391
+
+SCALARS Skew float
+LOOKUP_TABLE default
+0.072257
+-0.036465
+-0.036465
+-0.049057
+-0.036465
+-0.049057
+-0.049057
+-0.065526
+
+SCALARS Kurtosis float
+LOOKUP_TABLE default
+1.2928
+0.94758
+0.94758
+0.90935
+0.94758
+0.90935
+0.90935
+0.85925
+
+CELL_DATA 1
+VECTORS MeanPreferredDirectionVector float
+0.76619 -0.64261 0
+
+SCALARS MeanPreferredDirectionAngle float
+LOOKUP_TABLE default
+-39.9868
+
+SCALARS MeanNOI float
+LOOKUP_TABLE default
+66.3035
+
+SCALARS MeanSKEW float
+LOOKUP_TABLE default
+-0.031229
+
+SCALARS MeanKurtosis float
+LOOKUP_TABLE default
+0.96536
+

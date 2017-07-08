@@ -88,9 +88,7 @@ function imageNext_New = showRegistered(handles, imagePrevious, imageNext, tForm
 axes(handles.axes2);
 
 T = affine2d(tForm');
-imageNext_New = imwarp(imageNext, T);
-%imageNext_New = imtranslate(imageNext_New, [tForm(1,3) tForm(2,3)]);
-imageNext_New = imresize(imageNext_New, [500,500]);
+imageNext_New = imwarp(imageNext,T, 'OutputView',imref2d(size(imagePrevious)));
 
 imshowpair(imagePrevious, imageNext_New);
 
@@ -154,7 +152,7 @@ function slider1_Callback(hObject, eventdata, handles)
 %Initial value from 0 to 1
 
 value = get(hObject,'Value');
-rot = (value-0.5)*180;
+rot = (value-0.5)*360;
 handles.edit1.String = [num2str(rot) char(176)];
 
 adjustTForm(handles,'rot',rot);
@@ -244,7 +242,7 @@ index = strfind(string, char(176));
 string = string(1:index-1);
 rot = str2num(string);
 
-value = (rot/180)+0.5;
+value = (rot/360)+0.5;
 handles.slider1.Value = value;
 
 adjustTForm(handles,'rot',rot);

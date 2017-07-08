@@ -1,0 +1,3 @@
+strfile_tsals='/Users/ccsmacmini/Documents/SALS Files/Transmural SALS Files/BT_Tensor/ThreshFull/01_BT6_8.txt';
+T = readtable(strfile_tsals,'HeaderLines',1,...
+	'Delimiter','\t','ReadRowNames',true)

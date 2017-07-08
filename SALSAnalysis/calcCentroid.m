@@ -3,9 +3,9 @@ function [OI,outAng,degree,corr,reconstruct,htens] = calcCentroid(Itheta,this)
 
     Htens=zeros(2);
     for c=2:1:this.numDegrees
-    Htens(1,1)=Htens(1,1)+(((Itheta(c)*cos(this.radList(c))^2)+(Itheta(c-1)*cos(this.radList(c-1))^2))*pi/360.0);
-    Htens(1,2)=Htens(1,2)+(((Itheta(c)*cos(this.radList(c))*sin(this.radList(c)))+(Itheta(c-1)*cos(this.radList(c-1))*sin(this.radList(c))))*pi/360.0);
-    Htens(2,2)=Htens(2,2)+(((Itheta(c)*sin(this.radList(c))^2)+(Itheta(c-1)*sin(this.radList(c-1))^2))*pi/360.0);
+        Htens(1,1)=Htens(1,1)+(((Itheta(c)*cos(this.radList(c))^2)+(Itheta(c-1)*cos(this.radList(c-1))^2))*pi/360.0);
+        Htens(1,2)=Htens(1,2)+(((Itheta(c)*cos(this.radList(c))*sin(this.radList(c)))+(Itheta(c-1)*cos(this.radList(c-1))*sin(this.radList(c))))*pi/360.0);
+        Htens(2,2)=Htens(2,2)+(((Itheta(c)*sin(this.radList(c))^2)+(Itheta(c-1)*sin(this.radList(c-1))^2))*pi/360.0);
     end
     Htens(2,1)=Htens(1,2); 
     reconstruct=ones(1,180);

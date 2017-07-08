@@ -179,8 +179,10 @@ classdef data_point < matlab.mixin.SetGet
         
         function obj = ComputeStats(obj)
             % Convenience function for computing mean, oi, sd
+            %disp('ODF');
             obj = obj.ComputeStatsODF;
             obj = obj.ComputeStatsCirc;
+            %disp('ODD')
             obj = obj.ComputeStatsODD;
         end
         

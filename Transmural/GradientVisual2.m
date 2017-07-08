@@ -23,6 +23,25 @@ for i = 1:length(x1)
     end
 end
 
+
+x = 1;
+indices = [];
+this = ones(numPoints,3);
+for i = 1:length(x1)
+    for j = 1:length(x2)
+        for k = 1:length(x3)
+            this(x,:) = [x1(i) x2(j) x3(k)];
+            if (this(x,1) == 0 ||(this(x,1) == 1)) &&(this(x,2) == 0 ||(this(x,2) == 1)) && (this(x,3) == 0 ||(this(x,3) == 1))
+                indices = [indices x];
+            end
+            fprintf(fid, [num2str(x1(i)) ' ' num2str(x2(j)) ' ' num2str(x3(k)) '\n']);
+            x = x+1;
+        end
+    end
+end
+fprintf(fid, '\n');
+
+
 %% Find Gradient for the Preferred Direction Vector
 E1= 0.5; E2 = 0.5; E3 = 0.5;
 dE1dX = 1; dE2dY = 1; dE3dZ = 1;

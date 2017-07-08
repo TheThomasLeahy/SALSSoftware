@@ -16,17 +16,28 @@ TotalVolume = VoxelVolume*length(ElementData);
 
 nBins = 15;
 
-%% Full PAVL
+%% Full
+
+figure;
+
+[f,x] = hist(PrefD,nBins);
+bar(x,f/sum(f)); 
+xlim([-90,90]);
+xlabel('Preferred Direction (Degrees)'); 
+ylabel('Frequency');
+title('Preferred Direction', 'FontSize', 18);
+
 
 figure;
 [f,x] = hist(NOI,nBins);
 bar(x,f/sum(f)); 
-xlim([0,40]);
-xlabel('Normalized Orientation Index (\nu)'); 
+xlim([0,50]);
+xlabel('Normalized Orientation Index'); 
 ylabel('Frequency');
-title('Full PAVL NOI', 'FontSize', 18);
+title('Normalized Orientation Index', 'FontSize', 18);
 
 
+%{
 %Layer Specific NOI
 
 zVals = [PointData(:).z];
@@ -95,7 +106,7 @@ title('80%-100%', 'FontSize', 24);
 
 
 
-
+%}
 
 
 

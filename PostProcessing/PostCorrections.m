@@ -1,9 +1,33 @@
 
 
 %% Fix OI Calc
-h = waitbar(0,'fixin the old gal up');
+%h = waitbar(0,'fixin the old gal up');
+
+for i = 1:length(PointData)
+
+    PointData(i).z = PointData(i).z*10;
+end
+
+%Scale Z Dimension by 10
+for i = 1:length(ElementData)
+    for j = 1:8
+        ElementData(i).nodes(j).z = ElementData(i).nodes(j).z*10;
+        
+    end
+end
+
+for i = 1:length(ElementData)
+ElementData(i) = ElementData(i).CalculateMeanValues;
+ElementData(i) = ElementData(i).CalculateGradients;
+end
 
 
+myVTKWrite(PointData, ElementData);
+
+
+
+
+%{
 zVals = [PointData(:).z];
 maxZ = max(zVals); minZ = min(zVals);
 zDist = maxZ-minZ;
@@ -29,15 +53,15 @@ for i = 1:length(ElementData)
         
     end
 end
-    
-    
-    %{
+%}
+
+%{
     for x = 1:8
         ElementData(i).nodes(x) = ElementData(i).nodes(x).ComputeStatsODF;
     end
     ElementData(i) = ElementData(i).CalculateMeanValues;
     ElementData(i) = ElementData(i).CalculateGradients;
-    %}
+%}
 
 
 

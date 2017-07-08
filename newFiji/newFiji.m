@@ -56,8 +56,6 @@ for i = 2:length(imageFiles)
         tForm = dataOut{1};
         imageNext_New = dataOut{2};
         
-        imageNext_New = imresize(imageNext_New, [500,500]);
-        
     end
 
     
