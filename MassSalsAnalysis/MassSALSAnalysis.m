@@ -1,7 +1,7 @@
 %Mass SALS Analysis
 %Code by Thomas Leahy
 
-clc; clear all; close all; 
+clc; clear all; close all;
 
 %% Add required files to path
 addpath('../SALSAnalysis');
@@ -31,11 +31,11 @@ for i = 1:length(SALSFiles)
     close(h);
     sectionData{i} = Data;
 end
-    
-%% Visualize and edit. 
+
+%% Visualize and edit.
 
 %this.Figure = guihandles(MegaSalsaGUI);
-sectionData = MegaSalsaGUI(sectionData);
+sectionData = MegaSalsaGUI(sectionData, imageFolder);
 
 %% Build and store BinaryImages
 
@@ -84,8 +84,32 @@ end
 for i =1:length(sectionData)
     Section = sectionData{i};
     
+    % Matlab file
     string = strcat(outputFolder,'/Section',num2str(i),'.mat');
-    
     save(string,'Section');
+    
 end
 
+
+choice = saveText();
+if isequal(choice, 'Yes')
+    textFolder = uigetdir('\*', 'Select where you want to save the text files');
+    
+    for i =1:length(sectionData)
+        Section = sectionData{i};
+        
+        % TXT file
+        string = strcat(textFolder,'/Section',num2str(i),'.txt');
+        fileID = fopen(string,'w');
+        
+        fprintf(fileID, data_point.header('\t'));
+        for d = 1:length(Section)
+            mDataPoint = Section(d);
+            fprintf(fileID, '\n');
+            fprintf(fileID, mDataPoint.print('\t'));
+        end
+        fclose(fileID);
+        
+    end
+    
+end

@@ -160,7 +160,7 @@ function doAnalysis(this,src)
         % write to data arrays used for plotting
         this.meanData_ODF(j, i) = this.data_points(n_index).mean_odf;
         this.meanData_ODD(j, i) = this.data_points(n_index).mean_odd;
-        this.oiData_ODF(j, i) = this.data_points(n_index).oi_odf/100;
+        %this.oiData_ODF(j, i) = this.data_points(n_index).oi_odf/100;
         this.oiData_ODD(j, i) = this.data_points(n_index).oi_odd/100;
         this.skew_ODD(j, i) = this.data_points(n_index).skew_odd;
         this.skew_ODD(j, i) = this.data_points(n_index).skew_odf;

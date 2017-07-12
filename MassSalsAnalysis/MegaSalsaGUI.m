@@ -22,7 +22,7 @@ function varargout = MegaSalsaGUI(varargin)
 
 % Edit the above text to modify the response to help MegaSalsaGUI
 
-% Last Modified by GUIDE v2.5 15-Jun-2017 13:06:36
+% Last Modified by GUIDE v2.5 10-Jul-2017 16:35:12
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -57,6 +57,7 @@ function MegaSalsaGUI_OpeningFcn(hObject, eventdata, handles, varargin)
 % varargin   command line arguments to MegaSalsaGUI (see VARARGIN)
 
 handles.data = varargin{1};
+handles.imageFolder = varargin{2};
 handles.sectionNumber = handles.popupmenu1.Value;
 handles.display = handles.popupmenu3.Value;
 handles.threshold = 0;
@@ -77,7 +78,6 @@ guidata(hObject, handles);
 function handles = buildColorMap(handles)
 handles.sectionNumber = handles.popupmenu1.Value;
 handles.display = handles.popupmenu3.Value;
-
 
 sectionData = handles.data{handles.sectionNumber};
 
@@ -534,3 +534,41 @@ function popupmenu4_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+
+% --- Executes on button press in pushbutton4.
+function pushbutton4_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+axes1 = handles.axes1;
+image = getimage(axes1);
+
+handles.sectionNumber = handles.popupmenu1.Value;
+handles.display = handles.popupmenu3.Value;
+
+sectionData = handles.data{handles.sectionNumber};
+
+display = handles.display;
+imageStr = '';
+if display == 1
+        %Display PrefD
+        imageStr = 'PrefD';
+    elseif display ==2 
+        %Display OI
+        imageStr = 'OI';
+    elseif display == 3
+        %Display Skew
+        imageStr = 'Skew';
+    elseif display == 4
+        %Display kurtosis
+        imageStr = 'Kurtosis';
+    elseif display ==5
+        %Display MaxInt
+        imageStr = 'MaxIntensity';
+    else
+        %Display MinInt
+        imageStr = 'MinIntensity';
+end
+C = {handles.imageFolder,'/',imageStr,'.png'};
+imwrite(image, strjoin(C,''));

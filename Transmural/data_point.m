@@ -304,25 +304,23 @@ classdef data_point < matlab.mixin.SetGet
         end
         
         function [str_] = print(obj, dlm) 
-            str_ = '';
-            str_ = strcat(str_, strcat(num2str(obj.x), dlm));
-            str_ = strcat(str_, strcat(num2str(obj.y), dlm));
-            str_ = strcat(str_, strcat(num2str(obj.mean_odf), dlm));
-            str_ = strcat(str_, strcat(num2str(obj.mean_odd), dlm));
-            str_ = strcat(str_, strcat(num2str(obj.oi_odf), dlm));
-            str_ = strcat(str_, strcat(num2str(obj.oi_odd), dlm));
-            str_ = strcat(str_, strcat(num2str(obj.sd_odf), dlm));
-            str_ = strcat(str_, strcat(num2str(obj.sd_odd), dlm));
-            str_ = strcat(str_, strcat(num2str(obj.corr_coeff), dlm));
-            str_ = strcat(str_, strcat(num2str(obj.skew_odd), dlm));
-            str_ = strcat(str_, strcat(num2str(obj.skew_odf), dlm));
-            str_ = strcat(str_, strcat(num2str(obj.kurtosis_odd), dlm));
-            str_ = strcat(str_, strcat(num2str(obj.kurtosis_odf), dlm));
-            an_str = strrep(strrep(mat2str(obj.an'),']',''),'[','');
-            bn_str = strrep(strrep(mat2str(obj.bn'),']',''),'[','');
-            str_ = strcat(str_, strcat(an_str, dlm));
-            str_ = strcat(str_, strcat(bn_str, dlm));
-            str_ = strcat(str_, num2str(obj.z));
+            c = {num2str(obj.x),
+                num2str(obj.y),
+            num2str(obj.mean_odf),
+            num2str(obj.mean_odd),
+            num2str(obj.oi_odf),
+            num2str(obj.oi_odd),
+            num2str(obj.sd_odf),
+            num2str(obj.sd_odd),
+            num2str(obj.corr_coeff),
+            num2str(obj.skew_odd),
+            num2str(obj.skew_odf),
+            num2str(obj.kurtosis_odd),
+            num2str(obj.kurtosis_odf),
+            strrep(strrep(mat2str(obj.an'),']',''),'[',''), 
+            strrep(strrep(mat2str(obj.bn'),']',''),'[',''),
+            num2str(obj.z)};
+            str_ = strjoin(c, dlm);
         end
                 
         function new_data_point = ApplyTransformation2(obj, T)

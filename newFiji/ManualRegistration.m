@@ -22,7 +22,7 @@ function varargout = ManualRegistration(varargin)
 
 % Edit the above text to modify the response to help ManualRegistration
 
-% Last Modified by GUIDE v2.5 16-Jun-2017 12:22:15
+% Last Modified by GUIDE v2.5 11-Jul-2017 15:05:38
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -337,3 +337,39 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 disp('hello');
 close(handles.figure1);
+
+
+% --- Executes on button press in pushbutton2.
+function pushbutton2_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+global imagePrevious;
+global imageNext_New;
+global imageNext;
+global tForm;
+
+[optimizer, metric] = imregconfig('monomodal');
+optimizer.MaximumIterations = 500;
+altTForm = imregtform(imageNext_New,imagePrevious,'rigid',optimizer,metric);
+altTForm = altTForm.T';
+
+tForm = tForm*altTForm;
+
+imageNext_New = showRegistered(handles, imagePrevious, imageNext, tForm);
+
+%%update Values
+
+%rot
+
+
+%HorzShift
+
+
+%VertShift
+
+
+
+
+
