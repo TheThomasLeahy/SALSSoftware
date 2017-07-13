@@ -1,6 +1,6 @@
 %Histogram Generating script
 %Requires that you have ElementData Loaded in
-clc; close all; 
+clc; close all;
 
 %% Collect Data
 PrefD = [ElementData(:).PrefDA_Mean];
@@ -21,20 +21,63 @@ nBins = 15;
 figure;
 
 [f,x] = hist(PrefD,nBins);
-bar(x,f/sum(f)); 
+bar(x,f/sum(f));
 xlim([-90,90]);
-xlabel('Preferred Direction (Degrees)'); 
+xlabel('Preferred Direction (Degrees)');
 ylabel('Frequency');
 title('Preferred Direction', 'FontSize', 18);
 
 
 figure;
 [f,x] = hist(NOI,nBins);
-bar(x,f/sum(f)); 
-xlim([0,50]);
-xlabel('Normalized Orientation Index'); 
+bar(x,f/sum(f));
+xlim([0,20]);
+xlabel('Normalized Orientation Index');
 ylabel('Frequency');
 title('Normalized Orientation Index', 'FontSize', 18);
+
+PrefD_Section = cell(1,length(finalData));
+NOI_Section = cell(1,length(finalData));
+
+
+for i = 1:length(PointData)
+    ind = round(PointData(i).z/zStep)+1;
+    
+    if isempty(PrefD_Section)
+        PrefD_Section{ind} = (PointData(i).PrefDAngle*180/pi);
+    else
+        PrefD_Section{ind} = [PrefD_Section{ind} (PointData(i).PrefDAngle*180/pi)];
+    end
+    
+    if isempty(NOI_Section{ind})
+        NOI_Section{ind} = (PointData(i).oi_odf);
+    else
+        NOI_Section{ind} = [NOI_Section{ind} (PointData(i).oi_odf)];
+    end
+end
+
+for i = 1:length(PrefD_Section)
+   
+    meanPD(i) = mean(PrefD_Section{i});
+    stdPD(i) = std(PrefD_Section{i});
+    
+    meanNOI(i) = mean(NOI_Section{i});
+    stdNOI(i) = std(NOI_Section{i});
+end
+
+ind = 1:length(PrefD_Section);
+
+figure;
+errorbar(ind,meanPD,stdPD);
+title('Preferred Direction', 'FontSize', 18);
+xlabel('Section Index', 'FontSize', 18);
+ylabel('Preferred Direction (Degrees)', 'FontSize', 18);
+
+figure;
+errorbar(ind,meanNOI,stdNOI);
+title('NOI', 'FontSize', 18);
+xlabel('Section Index', 'FontSize', 18);
+ylabel('NOI', 'FontSize', 18);
 
 
 %{
@@ -69,38 +112,38 @@ end
 
 figure;
 subplot(5,1,1);
-bar(x1,f1/sum(f1)); 
+bar(x1,f1/sum(f1));
 xlim([0,40]);
 ylim([0 0.25]);
-xlabel('Normalized Orientation Index (\nu)', 'FontSize', 24); 
+xlabel('Normalized Orientation Index (\nu)', 'FontSize', 24);
 ylabel('Frequency', 'FontSize', 24);
 title('0%-20%', 'FontSize', 24);
 subplot(5,1,2);
-bar(x2,f2/sum(f2)); 
+bar(x2,f2/sum(f2));
 xlim([0,40]);
 ylim([0 0.25]);
-xlabel('Normalized Orientation Index (\nu)', 'FontSize', 24); 
+xlabel('Normalized Orientation Index (\nu)', 'FontSize', 24);
 ylabel('Frequency', 'FontSize', 24);
 title('20%-40%', 'FontSize', 24);
 subplot(5,1,3);
-bar(x3,f3/sum(f3)); 
+bar(x3,f3/sum(f3));
 xlim([0,40]);
 ylim([0 0.25]);
-xlabel('Normalized Orientation Index (\nu)', 'FontSize', 24); 
+xlabel('Normalized Orientation Index (\nu)', 'FontSize', 24);
 ylabel('Frequency', 'FontSize', 24);
 title('40%-60%', 'FontSize', 24);
 subplot(5,1,4);
-bar(x4,f4/sum(f4)); 
+bar(x4,f4/sum(f4));
 xlim([0,40]);
 ylim([0 0.25]);
-xlabel('Normalized Orientation Index (\nu)', 'FontSize', 24); 
+xlabel('Normalized Orientation Index (\nu)', 'FontSize', 24);
 ylabel('Frequency', 'FontSize', 24);
 title('60%-80%', 'FontSize', 24);
 subplot(5,1,5);
-bar(x5,f5/sum(f5)); 
+bar(x5,f5/sum(f5));
 xlim([0,40]);
 ylim([0 0.25]);
-xlabel('Normalized Orientation Index (\nu)', 'FontSize', 24); 
+xlabel('Normalized Orientation Index (\nu)', 'FontSize', 24);
 ylabel('Frequency', 'FontSize', 24);
 title('80%-100%', 'FontSize', 24);
 
@@ -127,22 +170,22 @@ title('80%-100%', 'FontSize', 24);
 figure;
 [f,x] = hist(PrefD,nBins);
 subplot(1,3,1);
-this = bar(x,f); 
+this = bar(x,f);
 xlim([-90,90]);
-xlabel('Preferred Direction (Degrees)'); 
+xlabel('Preferred Direction (Degrees)');
 ylabel('Bin Count');
 title('Bin Count', 'FontSize', 18);
 subplot(1,3,2);
-bar(x,f/sum(f)); 
+bar(x,f/sum(f));
 xlim([-90,90]);
 
-xlabel('Preferred Direction (Degrees)'); 
+xlabel('Preferred Direction (Degrees)');
 ylabel('Normalized');
 title('Normalized', 'FontSize', 18);
 subplot(1,3,3);
 bar(x,(f*VoxelVolume));
 xlim([-90,90]);
-xlabel('Preferred Direction (Degrees)'); 
+xlabel('Preferred Direction (Degrees)');
 ylabel('Volume (mm^3)');
 title('Volumetric', 'FontSize', 18);
 
@@ -154,23 +197,23 @@ figure;
 [f,x] = hist(NOI,nBins);
 %{
 subplot(1,3,1);
-this = bar(x,f); 
+this = bar(x,f);
 xlim([0,70]);
-xlabel('NOI'); 
+xlabel('NOI');
 ylabel('Bin Count');
 title('Bin Count', 'FontSize', 18);
 subplot(1,3,2);
 %}
-bar(x,f/sum(f)); 
+bar(x,f/sum(f));
 xlim([0,70]);
-xlabel('Normalized Orientation Index ('); 
+xlabel('Normalized Orientation Index (');
 ylabel('Frequency');
 title('Full PAVL NOI', 'FontSize', 18);
 %{
 subplot(1,3,3);
 bar(x,(f*VoxelVolume));
 xlim([0,70]);
-xlabel('NOI'); 
+xlabel('NOI');
 ylabel('Volume (mm^3)');
 title('Volumetric', 'FontSize', 18);
 %}
@@ -182,21 +225,21 @@ title('Volumetric', 'FontSize', 18);
 figure;
 [f,x] = hist(Skew,nBins);
 subplot(1,3,1);
-bar(x,f); 
+bar(x,f);
 xlim([-0.0075,0.00075]);
-xlabel('Skew'); 
+xlabel('Skew');
 ylabel('Bin Count');
 title('Bin Count', 'FontSize', 18);
 subplot(1,3,2);
-bar(x,f/sum(f)); 
+bar(x,f/sum(f));
 xlim([-0.0075,0.00075]);
-xlabel('Skew'); 
+xlabel('Skew');
 ylabel('Normalized');
 title('Normalized', 'FontSize', 18);
 subplot(1,3,3);
 bar(x,(f*VoxelVolume));
 xlim([-0.0075,0.00075]);
-xlabel('Skew'); 
+xlabel('Skew');
 ylabel('Volume (mm^3)');
 title('Volumetric', 'FontSize', 18);
 
@@ -204,21 +247,21 @@ title('Volumetric', 'FontSize', 18);
 figure;
 [f,x] = hist(Kurtosis,nBins);
 subplot(1,3,1);
-this = bar(x,f); 
+this = bar(x,f);
 xlim([-0.00075,0.00075]);
-xlabel('Kurtosis'); 
+xlabel('Kurtosis');
 ylabel('Bin Count');
 title('Bin Count', 'FontSize', 18);
 subplot(1,3,2);
-bar(x,f/sum(f)); 
+bar(x,f/sum(f));
 xlim([-0.00075,0.00075]);
-xlabel('Kurtosis'); 
+xlabel('Kurtosis');
 ylabel('Normalized');
 title('Normalized', 'FontSize', 18);
 subplot(1,3,3);
 bar(x,(f*VoxelVolume));
 xlim([-0.00075,0.00075]);
-xlabel('Kurtosis'); 
+xlabel('Kurtosis');
 ylabel('Volume (mm^3)');
 title('Volumetric', 'FontSize', 18);
 
