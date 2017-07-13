@@ -22,7 +22,7 @@ function varargout = MegaSalsaGUI(varargin)
 
 % Edit the above text to modify the response to help MegaSalsaGUI
 
-% Last Modified by GUIDE v2.5 10-Jul-2017 16:35:12
+% Last Modified by GUIDE v2.5 13-Jul-2017 17:40:54
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -43,7 +43,7 @@ else
 end
 
 
-
+stopDeleting = 0;
 
 % End initialization code - DO NOT EDIT
 
@@ -64,6 +64,7 @@ handles.threshold = 0;
 handles = buildColorMap(handles);
 handles.threshby = 1;
 
+handles.stopDeleting = 1;
 
 % Choose default command line output for MegaSalsaGUI
 handles.output = hObject;
@@ -76,6 +77,7 @@ guidata(hObject, handles);
 % uiwait(handles.figure1);
 
 function handles = buildColorMap(handles)
+hold on
 handles.sectionNumber = handles.popupmenu1.Value;
 handles.display = handles.popupmenu3.Value;
 
@@ -154,16 +156,6 @@ for j = 1:length(yVals)
     end
 end
 
-%{
-x = 1;
-for i= 1:length(xVals)
-    for j = 1:length(yVals)
-        newMap(x,:) = [dataMap(j,i,1) dataMap(j,i,2) dataMap(j,i,3)];
-        x = x + 1;
-    end
-end
-%}
-
 handles.currentMap = dataMap;
 imagesc(dataMap);
 set(gca,'YDir','normal');
@@ -172,26 +164,29 @@ caxis(stats);
 c = colorbar;
 c.Ticks = linspace(stats(1),stats(2),10);
 
-%{
+
 %Add Quiver
+xData = ones(length(xVals),length(yVals));
+yData = ones(length(xVals),length(yVals));
+xQuiver = ones(length(xVals),length(yVals));
+yQuiver = ones(length(xVals),length(yVals));
 index = 1;
-for i = 1:length(xVals)
-    for j = 1:length(yVals)
-        xData = i;
-        yData = j;
-        xQuiver = sectionData(index).PrefDVector(1);
-        yQuiver = sectionData(index).PrefDVector(2);
+for j = 1:length(yVals)
+    for i = 1:length(xVals)
+        xData(i,j) = i;
+        yData(i,j) = j; 
+        % rotate 90 degrees
+        xQuiver(i,j) = -sectionData(index).PrefDVector(2);
+        yQuiver(i,j) = sectionData(index).PrefDVector(1);
+        index = index + 1;
     end
 end
-quiver(xData,yData,xQuiver,yQuiver,0.6,'k','ShowArrowHead','off','LineWidth',2);
-%}
+axes1 = handles.axes1;
+quiver(axes1,yData,xData,yQuiver,xQuiver,'black','ShowArrowHead','off');
 
-
-%handles.currentMap = data;
-%surface(handles.currentMap);
 xlim([1 j]);
 ylim([1 i]);
-
+hold off
 
 
 function thresholdData(handles)
@@ -316,25 +311,75 @@ end
 
 % --- Executes on button press in pushbutton1.
 function pushbutton1_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-rect = getrect(gca);
-[xPoints,yPoints] = findPoints(rect);
-handles = InsertDelete(handles,xPoints,yPoints,1);
-handles = buildColorMap(handles);
+global stopDeleting;
+if (stopDeleting)
+    stopDeleting = 0;
+    set(handles.pushbutton1,'string','Delete Points');
+else
+    stopDeleting = 1;
+    set(handles.pushbutton1,'string','Stop Deleting');
+end
 
+global getrect_do
+getrect_do = stopDeleting;
+while getrect_do
+    % rubberand selection.
+    try
+    % using try to catch user clicking something else, and then repeating getrect call
+        r = getrect(gca);
+    catch
+        continue
+    end
+    if getrect_do
+        % user did mark a rectangle!
+        [xPoints,yPoints] = findPoints(r);
+        handles = InsertDelete(handles,xPoints,yPoints,1);
+        handles = buildColorMap(handles);
+    else
+        % user abort. while loop will terminate
+    end
+end
+% force getrect to end
+global GETRECT_H1
+getrect_do = false;
+set(GETRECT_H1, 'UserData', 'Completed');
 
 % --- Executes on button press in pushbutton2.
 function pushbutton2_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton2 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+global stopInserting;
+if (stopInserting)
+    stopInserting = 0;
+    set(handles.pushbutton2,'string','Insert Points');
+else
+    stopInserting = 1;
+    set(handles.pushbutton2,'string','Stop Inserting');
+end
 
-rect = getrect(gca);
-[xPoints,yPoints] = findPoints(rect);
-handles = InsertDelete(handles,xPoints,yPoints,0);
-handles = buildColorMap(handles);
+global getrect_do
+getrect_do = stopInserting;
+while getrect_do
+    % rubberand selection.
+    try
+    % using try to catch user clicking something else, and then repeating getrect call
+        rect = getrect(gca);
+    catch
+        continue
+    end
+    if getrect_do
+        % user did mark a rectangle!
+        [xPoints,yPoints] = findPoints(rect);
+        handles = InsertDelete(handles,xPoints,yPoints,0);
+        handles = buildColorMap(handles);
+    else
+        % user abort. while loop will terminate
+    end
+end
+% force getrect to end
+global GETRECT_H1
+getrect_do = false;
+set(GETRECT_H1, 'UserData', 'Completed');
+
+
 
 
 function handles = InsertDelete(handles,xPoints,yPoints,InsDel)
@@ -571,4 +616,18 @@ if display == 1
         imageStr = 'MinIntensity';
 end
 C = {handles.imageFolder,'/',imageStr,'.png'};
-imwrite(image, strjoin(C,''));
+export_fig(handles.axes1, strjoin(C,''));
+
+
+% --- Executes on button press in pushbutton5.
+function pushbutton5_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton5 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton6.
+function pushbutton6_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton6 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)

@@ -264,8 +264,8 @@ classdef data_point < matlab.mixin.SetGet
             obj.oi_odd = oi;
             obj.sd_odd = sd;
             
-            obj.skew_odd = skewness(piSegment);
-            obj.kurtosis_odd = kurtosis(piSegment);
+            obj.skew_odd = 1;%skewness(piSegment);
+            obj.kurtosis_odd = 1;%kurtosis(piSegment);
             
         end
 

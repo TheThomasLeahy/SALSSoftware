@@ -5,10 +5,11 @@ clc; clear all; close all;
 
 %% Add required files to path
 addpath('../SALSAnalysis');
+addpath('../export_fig');
 
 %% File Load: Load all SALS files
 
-imageFolder = uigetdir('\*', 'Select where you want to save the image stack');
+imageFolder = uigetdir( '\*', 'Select where you want to save the image stack');
 outputFolder = uigetdir('\*', 'Select where you want to save the SALSA files');
 
 [foldername,SALSFiles] = loadSALSFiles();
@@ -31,7 +32,6 @@ for i = 1:length(SALSFiles)
     close(h);
     sectionData{i} = Data;
 end
-
 %% Visualize and edit.
 
 %this.Figure = guihandles(MegaSalsaGUI);
@@ -87,7 +87,6 @@ for i =1:length(sectionData)
     % Matlab file
     string = strcat(outputFolder,'/Section',num2str(i),'.mat');
     save(string,'Section');
-    
 end
 
 
