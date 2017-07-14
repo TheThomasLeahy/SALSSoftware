@@ -58,6 +58,7 @@ function MegaSalsaGUI_OpeningFcn(hObject, eventdata, handles, varargin)
 
 handles.data = varargin{1};
 handles.imageFolder = varargin{2};
+handles.sectionNames = varargin{3};
 handles.sectionNumber = handles.popupmenu1.Value;
 handles.display = handles.popupmenu3.Value;
 handles.threshold = 0;
@@ -126,7 +127,7 @@ if display == 1
         end
     end
 elseif display == 2
-    stats = [0 100];
+    stats = [0 50];
 elseif display == 3
     stats = [-5 5];
 elseif display == 4
@@ -615,7 +616,8 @@ if display == 1
         %Display MinInt
         imageStr = 'MinIntensity';
 end
-C = {handles.imageFolder,'/',imageStr,'.png'};
+sectionName = handles.sectionNames(handles.sectionNumber);
+C = {handles.imageFolder,'/',sectionName{1},'_',imageStr,'.png'};
 export_fig(handles.axes1, strjoin(C,''));
 
 

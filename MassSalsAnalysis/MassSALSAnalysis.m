@@ -18,9 +18,11 @@ a = [SALSFiles.name];
 sectionNames = strsplit(a,'.txt');
 
 imageFolder = strcat(foldername,'/../Images');
-outputFolder = strcat(foldername,'/../SALSA_OUT_MAT/');
+BWimageFolder = strcat(foldername,'/../BW_Images');
+outputFolder = strcat(foldername,'/../SALSA OUT MAT/');
 mkdir(imageFolder);
 mkdir(outputFolder);
+mkdir(BWimageFolder);
 
 %% Analyze: Analyze all SALS files, stored in cell array
 sectionData = cell(1,length(SALSFiles));
@@ -66,7 +68,7 @@ for x =1:length(sectionData)
     imageBig = imresize(image,[500,500]);
     %thisPic = imshow(imageBig);
     %set(gca,'YDir','normal');
-    string = strcat(imageFolder,'/Section',num2str(x),'.tif');
+    string = strcat(BWimageFolder,'/Section',num2str(x),'.tif');
     imwrite(imageBig,string);
     
 end
@@ -86,27 +88,17 @@ for i =1:length(sectionData)
 end
 
 
-%Save files
-for i =1:length(sectionData)
-    Section = sectionData{i};
-    
-    % Matlab file
-    string = strcat(outputFolder,'/Section',num2str(i),'.mat');
-    save(string,'Section');
-end
-
-
 choice = saveText();
 if isequal(choice, 'Yes')
-    textFolder = strcat(foldername,'/../SALSA_OUT_TXT/');
-
+    textFolder = strcat(foldername,'/../SALSA OUT TXT/');
+    mkdir(textFolder);
     for i =1:length(sectionData)
         Section = sectionData{i};
         
         % TXT file
-        string = strcat(textFolder,'/Section',num2str(i),'.txt');
-        fileID = fopen(string,'w');
-        
+        sectionName = sectionNames(i);
+        C = {textFolder,sectionName{1},'_SALSA','.txt'};
+        fileID = fopen(strjoin(C,''),'w');
         fprintf(fileID, data_point.header('\t'));
         for d = 1:length(Section)
             mDataPoint = Section(d);
@@ -118,3 +110,13 @@ if isequal(choice, 'Yes')
     end
     
 end
+
+%Save files
+for i =1:length(sectionData)
+    Section = sectionData{i};
+    
+    % Matlab file
+    string = strcat(outputFolder,'/Section',num2str(i),'.mat');
+    save(string,'Section');
+end
+
