@@ -4,17 +4,23 @@
 clc; clear all; close all;
 
 %% Add required files to path
+if(~isdeployed)
+  cd(fileparts(which('MassSALSAnalysis.m')));
+end
 addpath('../SALSAnalysis');
 addpath('../export_fig');
 
 %% File Load: Load all SALS files
 
-imageFolder = uigetdir( '\*', 'Select where you want to save the image stack');
-outputFolder = uigetdir('\*', 'Select where you want to save the SALSA files');
-
 [foldername,SALSFiles] = loadSALSFiles();
-disp('Stuff');
 
+a = [SALSFiles.name];
+sectionNames = strsplit(a,'.txt');
+
+imageFolder = strcat(foldername,'/../Images');
+outputFolder = strcat(foldername,'/../SALSA_OUT_MAT/');
+mkdir(imageFolder);
+mkdir(outputFolder);
 
 %% Analyze: Analyze all SALS files, stored in cell array
 sectionData = cell(1,length(SALSFiles));
@@ -35,7 +41,7 @@ end
 %% Visualize and edit.
 
 %this.Figure = guihandles(MegaSalsaGUI);
-sectionData = MegaSalsaGUI(sectionData, imageFolder);
+sectionData = MegaSalsaGUI(sectionData, imageFolder, sectionNames);
 
 %% Build and store BinaryImages
 
@@ -92,8 +98,8 @@ end
 
 choice = saveText();
 if isequal(choice, 'Yes')
-    textFolder = uigetdir('\*', 'Select where you want to save the text files');
-    
+    textFolder = strcat(foldername,'/../SALSA_OUT_TXT/');
+
     for i =1:length(sectionData)
         Section = sectionData{i};
         
