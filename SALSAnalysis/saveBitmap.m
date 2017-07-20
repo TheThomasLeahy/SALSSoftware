@@ -7,14 +7,17 @@ function saveBitmap(this, src, event)
     fid = fopen(strcat(pathName,fileName),'wt');
 
     h = waitbar(0,'Exporting to TXT');
-    str_ = data_point.header('\t');
-    for i=1:length(this.data_points)
-        waitbar(i/length(this.data_points))
-        str_ = strcat(strcat(str_,'\n'), this.data_points(i).print('\t'));
+    
+    fprintf(fid, data_point.header('\t'));
+    for d = 1:length(this.data_points)
+        waitbar(d/length(this.data_points))
+        mDataPoint = this.data_points(d);
+        fprintf(fid, '\n');
+        fprintf(fid, mDataPoint.print('\t'));
     end
-    close(h)
+        
+    close(h);
 
-    fprintf(fid, str_);
     fclose(fid);
 
     set(this.Figure.outputPath,'String',pathName)

@@ -224,7 +224,7 @@ classdef SALSAnalysis_v2 <handle
             
             % Ranges for the color map
             this.colorGraphRangeMap = containers.Map;
-            this.colorGraphRangeMap('OI (ODF)') = [0 1];
+            this.colorGraphRangeMap('OI (ODF)') = [0 0.5];
             this.colorGraphRangeMap('OI (ODD)') = [0 1];
             this.colorGraphRangeMap('PrefD (ODF)') = [-90 90];
             this.colorGraphRangeMap('PrefD (ODD)') = [-90 90];

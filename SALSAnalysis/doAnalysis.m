@@ -120,6 +120,7 @@ function doAnalysis(this,src)
         means(:,k) = flipud(means(:,k));
         meanp(:,k) = flipud(meanp(:,k));
         vari(:,k)=flipud(vari(:,k));
+        this.oiData_ODF(:,k)=flipud(this.oiData_ODF(:,k));
         this.forDistSkew(:,k) = flipud(this.forDistSkew(:,k));
         kurtosis(:,k)=flipud(kurtosis(:,k));
         symCoeff(:,k)=flipud(symCoeff(:,k));
@@ -158,7 +159,7 @@ function doAnalysis(this,src)
         %this.forDistSkew(j, i) = this.data_points(n_index).skew;
         
         % write to data arrays used for plotting
-        this.meanData_ODF(j, i) = this.data_points(n_index).mean_odf;
+        %this.meanData_ODF(j, i) = this.data_points(n_index).mean_odf;
         this.meanData_ODD(j, i) = this.data_points(n_index).mean_odd;
         %this.oiData_ODF(j, i) = this.data_points(n_index).oi_odf/100;
         this.oiData_ODD(j, i) = this.data_points(n_index).oi_odd/100;
