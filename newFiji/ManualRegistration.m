@@ -358,19 +358,38 @@ altTForm = altTForm.T';
 tForm = tForm*altTForm;
 
 imageNext_New = showRegistered(handles, imagePrevious, imageNext, tForm);
-disp('Auto touch up complete, your royal highness!');
 
 %%update Values
 
 %rot
+c = tForm(1,1);
+s = tForm(1,2);
 
+rot = atan2d(s,c);
+
+handles.edit1.String = [num2str(rot) char(176)];
+
+value = (rot/360)+0.5;
+handles.slider1.Value = value;
 
 %HorzShift
+shift = tForm(1,3);
 
+handles.edit2.String = [num2str(shift)];
+
+value = (shift/1000)+0.5;
+handles.slider3.Value = value;
 
 %VertShift
 
+shift = tForm(2,3);
 
+handles.edit3.String = [num2str(shift)];
+
+value = (shift/1000)+0.5;
+handles.slider2.Value = value;
+
+disp('Auto Touch up complete!');
 
 
 
