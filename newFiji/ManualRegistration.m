@@ -335,7 +335,6 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-disp('Hope you enjoyed your time at the manual registration station');
 close(handles.figure1);
 
 
@@ -389,7 +388,7 @@ handles.edit3.String = [num2str(shift)];
 value = (shift/1000)+0.5;
 handles.slider2.Value = value;
 
-disp('Auto Touch up complete!');
+disp('Auto Touch up complete');
 
 
 

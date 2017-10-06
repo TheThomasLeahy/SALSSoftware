@@ -1,7 +1,6 @@
 %This code is made to replace FIJI in the SALS Data analysis code
 %This program takes a stack of images and automatically registers them
-
-close all; clear all;
+clear all;
 
 % Change the current folder to the folder of this m-file.
 if(~isdeployed)

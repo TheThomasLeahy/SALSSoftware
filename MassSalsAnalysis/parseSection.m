@@ -1,4 +1,4 @@
-function [ data_points, size] = parseSection( filename )
+function [ data_points, size] = parseSection(filename)
      orig_data = dlmread(filename);
     
      n = orig_data(1);

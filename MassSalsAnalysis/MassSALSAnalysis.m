@@ -1,7 +1,7 @@
 %Mass SALS Analysis
 %Code by Thomas Leahy
 
-clc; clear all; close all;
+clc; clear all;
 
 %% Add required files to path
 if(~isdeployed)
@@ -47,7 +47,7 @@ sectionData = MegaSalsaGUI(sectionData, imageFolder, sectionNames);
 
 %% Build and store BinaryImages
 
-for x =1:length(sectionData)
+for x=1:length(sectionData)
     thisData = sectionData{x};
     xVals = sort(unique([thisData(:).x]));
     yVals = sort(unique([thisData(:).y]));
@@ -68,8 +68,9 @@ for x =1:length(sectionData)
     imageBig = imresize(image,[500,500]);
     %thisPic = imshow(imageBig);
     %set(gca,'YDir','normal');
-    string = strcat(BWimageFolder,'/Section',num2str(x),'.tif');
-    imwrite(imageBig,string);
+    sectionName = sectionNames(x);
+    C = {BWimageFolder,'/',sectionName{1},'.tif'};
+    imwrite(imageBig,strjoin(C,''));
     
 end
 
@@ -115,8 +116,10 @@ end
 for i =1:length(sectionData)
     Section = sectionData{i};
     
+    sectionName = sectionNames(i);
+    C = {outputFolder,sectionName{1},'.mat'};
+
     % Matlab file
-    string = strcat(outputFolder,'/Section',num2str(i),'.mat');
-    save(string,'Section');
+    save(strjoin(C,''),'Section');
 end
 
