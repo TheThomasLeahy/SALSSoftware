@@ -1,0 +1,28 @@
+
+
+% Test #1: One element
+% For 0,0,0, points are    
+% 0,0,1  0,1,1  0,1,0   1,0,1   1,1,0  1,1,1, 1,0,0
+X = [0 0 0 0 1 1 1 1];
+Y = [0 0 1 1 0 0 1 1];
+Z = [0 1];
+Z_check = [0 0 0  0 1 1 1];
+for j = 1:length(Z)
+    data = [];
+    for i = 1:length(X)
+        dp = data_point;
+        dp.x = X(i);
+        dp.y = Y(i);
+        dp.z = Z(j);
+        dp.tissue_flag = 1;
+        data = [data dp];
+    end
+    allData{j} = data;
+end
+
+figure
+scatter3(X,Y,Z_check);
+
+[PointData, ElementData] = TFA3DAnalysis(allData);
+assert(lengthElementData == 1);
+
