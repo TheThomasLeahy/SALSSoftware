@@ -1,0 +1,9 @@
+Packaging the app...Failed to build Matlab apps package : Error in writing CTF file entry 'newFiji/\transforms.mat'. Details: 'A part name shall not have empty segments [M1.3]'
+Error in com.mathworks.jmi.NativeMatlab>SendMatlabMessage at -2
+Error in com.mathworks.jmi.NativeMatlab>sendMatlabMessage at 259
+Error in com.mathworks.jmi.MatlabLooper>sendMatlabMessage at 120
+Error in com.mathworks.jmi.Matlab>mtFeval at 1711
+Error in com.mathworks.jmi.MatlabWorker>feval at 197
+Error in com.mathworks.toolbox.apps.plugin.PackageCommand$3>runOnMatlabThread at 180
+Error in com.mathworks.jmi.MatlabWorker$2>run at 79
+Error in com.mathworks.jmi.NativeMatlab>dispatchMTRequests at 410

@@ -1,0 +1,78 @@
+<deployment-project plugin="plugin.apptool" plugin-version="1.0">
+  <configuration build-checksum="1788489642" file="/Users/ccsmacmini/Desktop/SALSSoftware/SALS Analysis.prj" location="/Users/ccsmacmini/Desktop/SALSSoftware" name="SALS Analysis" target="target.mlapps" target-name="Package App">
+    <param.appname>SALS Analysis</param.appname>
+    <param.authnamewatermark>JGZ</param.authnamewatermark>
+    <param.email />
+    <param.company />
+    <param.icon />
+    <param.icons />
+    <param.summary />
+    <param.description>&lt;ol&gt;&lt;li&gt;&lt;/li&gt;&lt;/ol</param.description>
+    <param.screenshot />
+    <param.version>1.0</param.version>
+    <param.products.name />
+    <param.products.id />
+    <param.products.version />
+    <param.platforms />
+    <param.output>${PROJECT_ROOT}/Build</param.output>
+    <param.guid>6596963a-1a3a-4b70-bc2a-d0d491999109</param.guid>
+    <unset>
+      <param.email />
+      <param.company />
+      <param.icon />
+      <param.icons />
+      <param.summary />
+      <param.screenshot />
+      <param.version />
+      <param.products.name />
+      <param.products.id />
+      <param.products.version />
+      <param.platforms />
+    </unset>
+    <fileset.main>
+      <file>${PROJECT_ROOT}/SALSPipelineUI.m</file>
+    </fileset.main>
+    <fileset.depfun>
+      <file>${PROJECT_ROOT}/SALSPipelineUI.fig</file>
+    </fileset.depfun>
+    <fileset.resources>
+      <file>${PROJECT_ROOT}/AverageOI.m</file>
+      <file>${PROJECT_ROOT}/Gradients</file>
+      <file>${PROJECT_ROOT}/MassSalsAnalysis</file>
+      <file>${PROJECT_ROOT}/SALSAnalysis</file>
+      <file>${PROJECT_ROOT}/Transmural</file>
+      <file>${PROJECT_ROOT}/newFiji</file>
+    </fileset.resources>
+    <fileset.package />
+    <build-deliverables>
+      <file location="/Users/ccsmacmini/Desktop/SALSSoftware" name="Build" optional="false">/Users/ccsmacmini/Desktop/SALSSoftware/Build</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>/Applications/MATLAB_R2016b.app</root>
+      <toolboxes>
+        <toolbox name="matlabcoder" />
+      </toolboxes>
+      <toolbox>
+        <matlabcoder>
+          <enabled>true</enabled>
+        </matlabcoder>
+      </toolbox>
+    </matlab>
+    <platform>
+      <unix>true</unix>
+      <mac>true</mac>
+      <windows>false</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>false</linux>
+      <solaris>false</solaris>
+      <osver>10.9.5</osver>
+      <os32>false</os32>
+      <os64>true</os64>
+      <arch>maci64</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>

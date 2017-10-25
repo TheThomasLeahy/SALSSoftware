@@ -20,7 +20,8 @@ for j = 1:length(Z)
         Y_check = [Y_check Y(i)];
         Z_check = [Z_check Z(j)];
         dp.tissue_flag = 1;
-        data = [data dp];
+        dp.PrefDVector = [1,1];
+        data = [data dp];   
     end
     allData{j} = data;
 end
